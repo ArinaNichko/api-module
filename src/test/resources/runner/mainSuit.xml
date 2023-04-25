@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="MainSuite" verbose="1" parallel="methods">
+
+    <test name="UserTest">
+        <classes>
+            <class name="tests.UserTest"/>
+        </classes>
+    </test>
+
+</suite>
