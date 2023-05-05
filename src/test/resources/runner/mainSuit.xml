@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="MainSuite" verbose="1" parallel="methods">
+
+    <test name="get Header">
+        <parameter name="filepath" value="src/test/resources/testData/headerData.csv"/>
+        <classes>
+            <class name="tests.UserTest"/>
+        </classes>
+    </test>
+
+</suite>
