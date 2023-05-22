@@ -2,12 +2,14 @@ package tests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import configurations.BaseTest;
+import io.restassured.http.Header;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 
 import org.testng.annotations.Test;
+import reflection.CustomTest;
 import utils.DataUtil;
 
 import static enums.ResponseCodes.OK;
@@ -29,6 +31,7 @@ public class UserTest extends BaseTest {
   }
 
   @Test(dataProvider = "HeaderData", dataProviderClass = DataUtil.class)
+  @CustomTest(name = "Verify Response Header")
   public void getHeader(String headerName, String headerValue) {
     Response response =
             restClient.sendRequestWithParams(Method.GET, emptyMap());
@@ -39,6 +42,7 @@ public class UserTest extends BaseTest {
   }
 
   @Test
+  @CustomTest(name = "Verify Count of User")
   public void getCountOfUser() {
     JsonNode expectedResult = readJsonData(usersPath);
 
@@ -48,5 +52,12 @@ public class UserTest extends BaseTest {
 
     assertThat(actualResult.size(), Matchers.equalTo(USERS_COUNT));
     assertThat(actualResult, Matchers.equalTo(expectedResult));
+  }
+
+  @Test
+  @CustomTest(name = "Implement helper NullPointerException")
+  public void getNullPointerException() {
+    Header header = null;
+    System.out.println(header.getName());
   }
 }
