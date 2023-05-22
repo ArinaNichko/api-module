@@ -29,10 +29,9 @@ public class ExtentListener implements ITestListener {
     Method testMethod = result.getMethod().getConstructorOrMethod().getMethod();
 
     if (testMethod.isAnnotationPresent(CustomTest.class)) {
-      CustomTest customTestAnnotation = testMethod.getAnnotation(CustomTest.class);
-      String testName = customTestAnnotation.name();
+      CustomTest customTest = testMethod.getAnnotation(CustomTest.class);
+      String testName = customTest.name();
       String modifiers = Modifier.toString(testMethod.getModifiers());
-
       String logText = "<b>Test Name: " + testName + "</b><br>" +
               "<b>Modifiers: " + modifiers + "</b><br>";
       Markup m = MarkupHelper.createLabel(logText, ExtentColor.PINK);
