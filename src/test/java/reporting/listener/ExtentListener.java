@@ -18,9 +18,11 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class ExtentListener implements ITestListener {
+  private static final String FAILURE_DETAILS = "<details>" + "<summary>" + "<b>" + "<font color=" + "red>" + "Exception Occurred:Click to see"
+          + "</font>" + "</b >" + "</summary>";
   public static ThreadLocal<ExtentTest> testReport = new ThreadLocal<>();
   static Date date = new Date();
-  static String fileName = "Report_" + date.toString().replace(":", "_").replace(" ", "_") + ".html";
+  static String fileName = "Report_" + date.toString().replaceAll("[: \\s]", "_") + ".html";
   private static final ExtentReports extent = ExtentManager.createInstance(System.getProperty("user.dir") + "\\reports\\" + fileName);
 
   public void onTestStart(ITestResult result) {
@@ -49,8 +51,7 @@ public class ExtentListener implements ITestListener {
 
   public void onTestFailure(ITestResult result) {
     String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
-    testReport.get().fail("<details>" + "<summary>" + "<b>" + "<font color=" + "red>" + "Exception Occured:Click to see"
-            + "</font>" + "</b >" + "</summary>" + exceptionMessage.replaceAll(",", "<br>") + "</details>" + " \n");
+    testReport.get().fail(FAILURE_DETAILS + exceptionMessage.replaceAll(",", "<br>") + "</details>" + " \n");
 
     String failureLogg = "TEST CASE FAILED";
     Markup m = MarkupHelper.createLabel(failureLogg, ExtentColor.RED);
@@ -64,12 +65,6 @@ public class ExtentListener implements ITestListener {
     Markup m = MarkupHelper.createLabel(logText, ExtentColor.ORANGE);
     testReport.get().skip(m);
     testReport.get().info("Test parameters: " + Arrays.toString(result.getParameters()));
-  }
-
-  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-  }
-
-  public void onStart(ITestContext context) {
   }
 
   public void onFinish(ITestContext context) {
